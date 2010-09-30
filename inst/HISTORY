@@ -3,3 +3,6 @@
 
 Version 1.0 : First released version submitted to CRAN.
 
+Version 1.1 : 
+- I had forgotten to free some pointers in file imhof.cpp, in the function void f
+

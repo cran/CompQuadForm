@@ -70,6 +70,15 @@ extern "C" {
       u[0] = x[i-1];
       x[i-1] =  imhoffunc(u, lambda, lambdalen, h, xx, delta2);
     }
+
+    delete[] xx;
+    delete[] lambdalen;
+    delete[] lambda;
+    delete[] h;
+    delete[] delta2;
+    delete[] u;
+
+
   }
   
 
