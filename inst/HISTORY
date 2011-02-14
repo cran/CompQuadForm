@@ -3,6 +3,16 @@
 
 Version 1.0 : First released version submitted to CRAN.
 
+2010-09-30
+----------
+
 Version 1.1 : 
 - I had forgotten to free some pointers in file imhof.cpp, in the function void f
 
+2011-02-14
+----------
+
+Version 1.2 :
+- I modified man file davies.Rd to add the outputs of function qfc, i.e. trace, ifault, Qq
+- I modified function davies in file qfc.R to only output trace, ifault, Qq. And note that out$res was renamed to out$Qq
+- I also modified function davies to change the type of ifault from double to integer
