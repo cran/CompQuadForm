@@ -23,4 +23,9 @@ Version 1.2 :
 Version 1.3 :
 - I removed the #include <malloc.h> line in the file qfc.cpp because it caused this package not to compile under MacOS
 
+2012-04-21
+----------
+
+Version 1.4:
+- I added a NAMESPACE file
 

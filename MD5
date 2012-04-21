@@ -1,0 +1,16 @@
+1278bbbd48d9db2f94d3ae3e3111b626 *DESCRIPTION
+6522151ce5e32ff3f4f5fe237db1b652 *NAMESPACE
+2290f81c4b4b51837471c11ece4672a7 *R/davies.R
+d0a5c850512f537fd5b8a72cbd873130 *R/farebrother.R
+87a43d2c7fbe717ece3a3e1269feda1f *R/imhof.R
+003a1a49df074d1acdbb76d34f62050e *R/liu.R
+dc7150c170beb90cb7ff1a1674c27225 *R/zzz.R
+e6be25427394ad6febe8d7daacff0604 *inst/CITATION
+f6239ee9bce7ed2d91815d546f5c2540 *inst/HISTORY
+3c3c256445621bec452562a908c4da5b *man/davies.Rd
+f27d84a27eb20040499d4e08bc1411fc *man/farebrother.Rd
+45248ee34d5fe43097e4050581836759 *man/imhof.Rd
+0686730e51cee2474bcddfab83b56a0e *man/liu.Rd
+c5f6fc76bb997fec18d1dde7a03272b3 *src/imhof.cpp
+a99c4b6be72642ed51a3f0da39f7bcb0 *src/qfc.cpp
+649958571e71880b019b432fdc419a45 *src/ruben.cpp
