@@ -5,7 +5,8 @@
 Distribution function (survival function in fact) of quadratic forms in normal variables using Imhof's method.
 }
 \usage{
-imhof(q, lambda, h = rep(1, length(lambda)), delta = rep(0, length(lambda)), epsabs = 10^(-6), epsrel = 10^(-6), limit = 10000)
+imhof(q, lambda, h = rep(1, length(lambda)), delta = rep(0,length(lambda)),
+      epsabs = 10^(-6), epsrel = 10^(-6), limit = 10000)
 }
 \arguments{
   \item{q}{value point at which the survival function is to be evaluated}
@@ -33,8 +34,8 @@ of \eqn{\mu_1,\ldots,\mu_n}{mu_1,...,mu_n} and the
 non-centrality parameter \eqn{delta_r}{delta_r}. The variable
 \eqn{\chi^2_{h,\delta}}{chi^2_{h;delta}} is defined here by the
 relation \eqn{\chi^2_{h,\delta}=(X_1 +
-  \delta)^2+\sum_{i=1}^hX_i^2}{chi^2_{h,delta}=(X_1 + delta)^2+
-  sum_{i=1}^h X_i^2}, where \eqn{X_1,\ldots,X_n}{X_1,...,X_n} are
+  \delta)^2+\sum_{i=2}^hX_i^2}{chi^2_{h,delta}=(X_1 + delta)^2+
+  sum_{i=2}^h X_i^2}, where \eqn{X_1,\ldots,X_h}{X_1,...,X_h} are
 independent unit normal deviates.
 }
 \value{
