@@ -1,8 +1,7 @@
 #define UseDouble 0             /* all floating point double */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <R.h>
+#include "Rmath.h"
 #include <setjmp.h>
 
 #define TRUE  1
@@ -24,26 +23,26 @@ static jmp_buf env;
 
 
 static double exp1(double x)               /* to avoid underflows  */
-{ return x < -50.0 ? 0.0 : exp(x); }
+{ return x < -50.0 ? 0.0 : std::exp(x); }
 
    static void counter(void)
    /*  count number of calls to errbd, truncation, cfe */
    {
       extern int count,lim;
       count = count + 1;
-      if ( count > lim ) longjmp(env,1);
+      if ( count > lim ) longjmp(env, 1);
    }
 
-   static double square(double x)  { return x*x; }
+   static double square(double x)  { return x * x; }
 
-   static double cube(double x)  { return x*x*x; }
+   static double cube(double x)  { return x * x * x; }
 
    static double  log1(double x, BOOL first)
-   /* if (first) log(1 + x) ; else  log(1 + x) - x */
+   /* if (first) std::log(1 + x) ; else  std::log(1 + x) - x */
    {
       if (fabs(x) > 0.1)
       {
-         return (first ? log(1.0 + x) : (log(1.0 + x) - x));
+	return (first ? std::log(1.0 + x) : (std::log(1.0 + x) - x));
       }
       else
       {
@@ -62,12 +61,12 @@ static double exp1(double x)               /* to avoid underflows  */
   {
       int j, k; double lj;
       extern double *lb; extern int *th; extern int r; extern BOOL ndtsrt;
-      for ( j=0; j<r; j++ )
+      for ( j = 0; j < r; j++ )
       {
-         lj = fabs(lb[j]);
-         for (k = j-1; k>=0; k--)
+	lj = std::fabs(lb[j]);
+         for (k = j - 1; k >= 0; k--)
          {
-            if ( lj > fabs(lb[th[k]]) )  th[k + 1] = th[k];
+	   if ( lj > std::fabs(lb[th[k]]) )  th[k + 1] = th[k];
             else goto l1;
          }
          k = -1;
@@ -83,16 +82,16 @@ static double exp1(double x)               /* to avoid underflows  */
       point returned to *cx */
    {
       double sum1, lj, ncj, x, y, xconst; int j, nj;
-      extern double sigsq,*lb,*nc; extern int *n; extern int r;
+      extern double sigsq, *lb, *nc; extern int *n; extern int r;
       counter();
       xconst = u * sigsq;  sum1 = u * xconst;  u = 2.0 * u;
-      for (j=r-1; j>=0; j--)
+      for (j = r - 1; j >= 0; j--)
       {
          nj = n[j]; lj = lb[j]; ncj = nc[j];
          x = u * lj; y = 1.0 - x;
          xconst = xconst + lj * (ncj / y + nj) / y;
          sum1 = sum1 + ncj * square(x / y)
-            + nj * (square(x) / y + log1(-x, FALSE ));
+	   + nj * (square(x) / y + log1(-x, FALSE ));
       }
       *cx = xconst; return exp1(-0.5 * sum1);
    }
@@ -102,7 +101,7 @@ static double exp1(double x)               /* to avoid underflows  */
        p(qf < ctff) < accx otherwise */
    {
       double u1, u2, u, rb, xconst, c1, c2;
-      extern double lmin,lmax,mean;
+      extern double lmin, lmax, mean;
       u2 = *upn;   u1 = 0.0;  c1 = mean;
       rb = 2.0 * ((u2 > 0.0) ? lmax : lmin);
       for (u = u2 / (1.0 + u2 * rb); errbd(u, &c2) > accx; 
@@ -134,7 +133,7 @@ static double exp1(double x)               /* to avoid underflows  */
       sum1  = 0.0; prod2 = 0.0;  prod3 = 0.0;  s = 0;
       sum2 = (sigsq + tausq) * square(u); prod1 = 2.0 * sum2;
       u = 2.0 * u;
-      for (j=0; j<r; j++ )
+      for (j = 0; j < r; j++ )
       {
          lj = lb[j];  ncj = nc[j]; nj = n[j];
          x = square(u * lj);
@@ -163,7 +162,7 @@ static double exp1(double x)               /* to avoid underflows  */
    /*  find u such that truncation(u) < accx and truncation(u / 1.2) > accx */
    {
       double u, ut; int i;
-      static double divis[]={2.0,1.4,1.2,1.1};
+      static double divis[] = {2.0, 1.4, 1.2, 1.1};
       ut = *utx; u = ut / 4.0;
       if ( truncation(u, 0.0) > accx )
       {
@@ -175,8 +174,8 @@ static double exp1(double x)               /* to avoid underflows  */
          for ( u = u / 4.0; truncation(u, 0.0) <=  accx; u = u / 4.0 )
          ut = u;
       }
-      for ( i=0;i<4;i++)
-         { u = ut/divis[i]; if ( truncation(u, 0.0)  <=  accx )  ut = u; }
+      for ( i = 0; i < 4; i++)
+         { u = ut / divis[i]; if ( truncation(u, 0.0)  <=  accx )  ut = u; }
       *utx = ut;
    }
 
@@ -184,56 +183,56 @@ static double exp1(double x)               /* to avoid underflows  */
    static void integrate(int nterm, double interv, double tausq, BOOL mainx)
    /*  carry out integration with nterm terms, at stepsize
       interv.  if (! mainx) multiply integrand by
-         1.0-exp(-0.5*tausq*u^2) */
+         1.0 - exp(-0.5 * tausq * u ^ 2) */
    {
       double inpi, u, sum1, sum2, sum3, x, y, z;
       int k, j, nj;
-      extern double intl,ersm; extern double sigsq,c;
-      extern int *n; extern double *lb,*nc; extern int r;
+      extern double intl, ersm; extern double sigsq,c;
+      extern int *n; extern double *lb, *nc; extern int r;
       inpi = interv / pi;
-      for ( k = nterm; k>=0; k--)
+      for ( k = nterm; k >= 0; k--)
       {
          u = (k + 0.5) * interv;
-         sum1 = - 2.0 * u * c;  sum2 = fabs(sum1);
+         sum1 = - 2.0 * u * c;  sum2 = std::fabs(sum1);
          sum3 = - 0.5 * sigsq * square(u);
-         for ( j = r-1; j>=0; j--)
+         for ( j = r - 1; j >= 0; j--)
          {
             nj = n[j];  x = 2.0 * lb[j] * u;  y = square(x);
             sum3 = sum3 - 0.25 * nj * log1(y, TRUE );
             y = nc[j] * x / (1.0 + y);
-            z = nj * atan(x) + y;
+            z = nj * std::atan(x) + y;
             sum1 = sum1 + z;   sum2 = sum2 + fabs(z);
             sum3 = sum3 - 0.5 * x * y;
          }
          x = inpi * exp1(sum3) / u;
 	 if ( !  mainx )
          x = x * (1.0 - exp1(-0.5 * tausq * square(u)));
-         sum1 = sin(0.5 * sum1) * x;  sum2 = 0.5 * sum2 * x;
+         sum1 = std::sin(0.5 * sum1) * x;  sum2 = 0.5 * sum2 * x;
          intl = intl + sum1; ersm = ersm + sum2;
       }
    }
 
    static double cfe(double x)
    /*  coef of tausq in error when convergence factor of
-      exp1(-0.5*tausq*u^2) is used when df is evaluated at x */
+      exp1(-0.5 * tausq * u ^ 2) is used when df is evaluated at x */
    {
       double axl, axl1, axl2, sxl, sum1, lj; int j, k, t;
       extern BOOL ndtsrt,fail; extern int *th,*n; extern double *lb,*nc;
       extern int r;
       counter();
       if (ndtsrt) order();
-      axl = fabs(x);  sxl = (x>0.0) ? 1.0 : -1.0;  sum1 = 0.0;
-      for ( j = r-1; j>=0; j-- )
+      axl = fabs(x);  sxl = (x > 0.0) ? 1.0 : -1.0;  sum1 = 0.0;
+      for ( j = r - 1; j >= 0; j-- )
       { t = th[j];
          if ( lb[t] * sxl > 0.0 )
          {
-            lj = fabs(lb[t]);
+	   lj = std::fabs(lb[t]);
             axl1 = axl - lj * (n[t] + nc[t]);  axl2 = lj / log28;
             if ( axl1 > axl2 )  axl = axl1  ; else
             {
                if ( axl > axl2 )  axl = axl2;
                sum1 = (axl - axl1) / lj;
-               for ( k = j-1; k>=0; k--)
+               for ( k = j - 1; k >= 0; k--)
                sum1 = sum1 + (n[th[k]] + nc[th[k]]);
                goto  l;
             }
@@ -242,7 +241,7 @@ static double exp1(double x)               /* to avoid underflows  */
    l:
       if (sum1 > 100.0)
       { fail = TRUE; return 1.0; } else
-      return pow(2.0,(sum1 / 4.0)) / (pi * square(axl));
+      return pow(2.0, (sum1 / 4.0)) / (pi * square(axl));
    }
 
 
@@ -282,30 +281,30 @@ output:
       extern double sigsq, lmax, lmin, mean;
       extern double intl,ersm;
       extern int r,lim; extern double c;
-      extern int *n,*th; extern double *lb,*nc;
+      extern int *n, *th; extern double *lb, *nc;
       double qfval = -1.0;
-      static int rats[]={1,2,4,8};
+      static int rats[]={1, 2, 4, 8};
 
-      if (setjmp(env) != 0) { *ifault=4; goto endofproc; }
-      r=r1[0]; lim=lim1[0]; c=c1[0];
-      n=n1; lb=lb1; nc=nc1;
-      for ( j = 0; j<7; j++ )  trace[j] = 0.0;
+      if (setjmp(env) != 0) { *ifault = 4; goto endofproc; }
+      r = r1[0]; lim = lim1[0]; c = c1[0];
+      n = n1; lb = lb1; nc = nc1;
+      for ( j = 0; j < 7; j++ )  trace[j] = 0.0;
       *ifault = 0; count = 0;
       intl = 0.0; ersm = 0.0;
       qfval = -1.0; acc1 = acc[0]; ndtsrt = TRUE;  fail = FALSE;
       xlim = (double)lim;
-      th=(int*)malloc(r*(sizeof(int)));
-      if (! th) { *ifault=5;  goto  endofproc; } 
+      th = (int*)malloc(r*(sizeof(int)));
+      if (! th) { *ifault = 5;  goto  endofproc; } 
 
       /* find mean, sd, max and min of lb,
          check that parameter values are valid */
       sigsq = square(sigma[0]); sd = sigsq;
       lmax = 0.0; lmin = 0.0; mean = 0.0;
-      for (j=0; j<r; j++ )
+      for (j = 0; j < r; j++ )
       {
          nj = n[j];  lj = lb[j];  ncj = nc[j];
          if ( nj < 0  ||  ncj < 0.0 ) { *ifault = 3;  goto  endofproc;  }
-         sd  = sd  + square(lj) * (2 * nj + 4.0 * ncj);
+         sd  = sd  + square(lj) * ((double)(2 * nj) + 4.0 * ncj);
          mean = mean + lj * (nj + ncj);
          if (lmax < lj) lmax = lj ; else if (lmin > lj) lmin = lj;
       }
@@ -313,7 +312,7 @@ output:
       {  qfval = (c > 0.0) ? 1.0 : 0.0; goto  endofproc;  }
       if ( lmin == 0.0 && lmax == 0.0 && sigma[0] == 0.0 )
          { *ifault = 3;  goto  endofproc;  }
-      sd = sqrt(sd);
+      sd = std::sqrt(sd);
       almx = (lmax < - lmin) ? - lmin : lmax;
 
       /* starting values for findu, ctff */
@@ -329,7 +328,7 @@ output:
          {
             sigsq = sigsq + tausq;
             findu(&utx, .25 * acc1);
-            trace[5] = sqrt(tausq);
+            trace[5] = std::sqrt(tausq);
          }
       }
       trace[4] = utx;  acc1 = 0.5 * acc1;
@@ -344,12 +343,12 @@ output:
       intv = 2.0 * pi / ((d1 > d2) ? d1 : d2);
       /* calculate number of terms required for main and
          auxillary integrations */
-      xnt = utx / intv;  xntm = 3.0 / sqrt(acc1);
+      xnt = utx / intv;  xntm = 3.0 / std::sqrt(acc1);
       if (xnt > xntm * 1.5)
       {
          /* parameters for auxillary integration */
          if (xntm > xlim) { *ifault = 1; goto endofproc; }
-         ntm = (int)floor(xntm+0.5);
+         ntm = (int)std::floor(xntm + 0.5);
          intv1 = utx / ntm;  x = 2.0 * pi / intv1;
          if (x <= fabs(c)) goto l2;
          /* calculate convergence factor */
@@ -369,7 +368,7 @@ output:
    l2:
       trace[3] = intv;
       if (xnt > xlim) { *ifault = 1; goto endofproc; }
-      nt = (int)floor(xnt+0.5);
+      nt = (int)std::floor(xnt + 0.5);
       integrate(nt, intv, 0.0, TRUE );
       trace[2] = trace[2] + 1; trace[1] = trace[1] + nt + 1;
       qfval = 0.5 - intl;
@@ -377,8 +376,8 @@ output:
 
       /* test whether round-off error could be significant
          allow for radix 8 or 16 machines */
-      up=ersm; x = up + acc[0] / 10.0;
-      for (j=0;j<4;j++) { if (rats[j] * x == rats[j] * up) *ifault = 2; }
+      up = ersm; x = up + acc[0] / 10.0;
+      for (j = 0; j < 4; j++) { if (rats[j] * x == rats[j] * up) *ifault = 2; }
 
    endofproc :
       free((char*)th);

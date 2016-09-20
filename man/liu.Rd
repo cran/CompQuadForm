@@ -12,7 +12,7 @@ liu(q, lambda, h = rep(1, length(lambda)), delta = rep(0, length(lambda)))
   \item{q}{value point at which the survival function is to be evaluated}
   \item{lambda}{distinct non-zero characteristic roots of \eqn{A\Sigma}{A.Sigma}, i.e. the \eqn{\lambda_i}'s }
   \item{h}{respective orders of multiplicity \eqn{h_i}'s of the \eqn{\lambda}{lambda}'s}
-  \item{delta}{non-centrality parameters \eqn{\delta_i}'s}
+  \item{delta}{non-centrality parameters \eqn{\delta_i}'s (should be positive)}
 }
 \details{
 New chi-square approximation to the distribution of non-negative
@@ -36,24 +36,25 @@ H. Liu, Y. Tang, H.H. Zhang, A new chi-square approximation
 \examples{
 # Some results from Liu et al. (2009)
 # Q1 from Liu et al.
-round(liu(2,c(0.5,0.4,0.1),c(1,2,1),c(1,0.6,0.8)),6)
-round(liu(6,c(0.5,0.4,0.1),c(1,2,1),c(1,0.6,0.8)),6)
-round(liu(8,c(0.5,0.4,0.1),c(1,2,1),c(1,0.6,0.8)),6)
+round(liu(2, c(0.5, 0.4, 0.1), c(1, 2, 1), c(1, 0.6, 0.8)), 6)
+round(liu(6, c(0.5, 0.4, 0.1), c(1, 2, 1), c(1, 0.6, 0.8)), 6)
+round(liu(8, c(0.5, 0.4, 0.1), c(1, 2, 1), c(1, 0.6, 0.8)), 6)
 
 # Q2 from Liu et al.
-round(liu(1,c(0.7,0.3),c(1,1),c(6,2)),6)
-round(liu(6,c(0.7,0.3),c(1,1),c(6,2)),6)
-round(liu(15,c(0.7,0.3),c(1,1),c(6,2)),6)
+round(liu(1, c(0.7, 0.3), c(1, 1), c(6, 2)), 6)
+round(liu(6, c(0.7, 0.3), c(1, 1), c(6, 2)), 6)
+round(liu(15, c(0.7, 0.3), c(1, 1), c(6, 2)), 6)
 
 # Q3 from Liu et al.
-round(liu(2,c(0.995,0.005),c(1,2),c(1,1)),6)
-round(liu(8,c(0.995,0.005),c(1,2),c(1,1)),6)
-round(liu(12,c(0.995,0.005),c(1,2),c(1,1)),6)
+round(liu(2, c(0.995, 0.005), c(1, 2), c(1, 1)), 6)
+round(liu(8, c(0.995, 0.005), c(1, 2), c(1, 1)), 6)
+round(liu(12, c(0.995, 0.005), c(1, 2), c(1, 1)), 6)
 
 # Q4 from Liu et al.
-round(liu(3.5,c(0.35,0.15,0.35,0.15),c(1,1,6,2),c(6,2,6,2)),6)
-round(liu(8,c(0.35,0.15,0.35,0.15),c(1,1,6,2),c(6,2,6,2)),6)
-round(liu(13,c(0.35,0.15,0.35,0.15),c(1,1,6,2),c(6,2,6,2)),6)
+round(liu(3.5, c(0.35, 0.15, 0.35, 0.15), c(1, 1, 6, 2), c(6, 2, 6, 2)),
+6)
+round(liu(8, c(0.35, 0.15, 0.35, 0.15), c(1, 1, 6, 2), c(6, 2, 6, 2)), 6)
+round(liu(13, c(0.35, 0.15, 0.35, 0.15), c(1, 1, 6, 2), c(6, 2, 6, 2)), 6)
 
 }
 \keyword{distribution} % Probability Distributions and Random Numbers

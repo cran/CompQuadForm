@@ -2,3 +2,5 @@ useDynLib(CompQuadForm)
 
 # Export all names
 exportPattern(".")
+
+importFrom("stats", "pchisq")

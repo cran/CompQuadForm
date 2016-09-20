@@ -19,7 +19,7 @@ extern "C" {
     
     
     
-    if ((n[0]<1) || (c[0]<=0) || (maxit[0] <1) || (eps[0]<=0.0)) {
+    if ((n[0] < 1) || (c[0] <= 0) || (maxit[0] < 1) || (eps[0] <= 0.0)) {
       res[0] = -2.0;
       ifault[0] = 2;
       delete[] gamma;
@@ -34,9 +34,9 @@ extern "C" {
       sum = lambda[0];
       bbeta = sum;
       
-      for (i=1;i<=n[0];i++) {
-	hold = lambda[i-1];
-	if ((hold<=0.0) || (mult[i-1]<1) || (delta[i-1]<0.0)) {
+      for (i = 1; i <= n[0]; i++) {
+	hold = lambda[i - 1];
+	if ((hold <= 0.0) || (mult[i - 1] < 1) || (delta[i - 1] < 0.0)) {
 	  res[0] = -7.0;
 	  ifault[0] = -i;
 	  delete[] gamma;
@@ -51,51 +51,51 @@ extern "C" {
       
   
     if (mode[0] > 0.0) {
-      // if ((2.0/(1.0/bbeta+1.0/sum))>1.8*sum) bbeta = sum; // comme dans NAG : methode avec betaA
-            bbeta = mode[0]*bbeta;
+      // if ((2.0 / (1.0 / bbeta + 1.0 / sum)) > 1.8 * sum) bbeta = sum; // comme dans NAG : methode avec betaA
+            bbeta = mode[0] * bbeta;
     } else {
-      bbeta = 2.0/(1.0/bbeta+1.0/sum);  // methode avec betaB
+      bbeta = 2.0 / (1.0 / bbeta + 1.0 / sum);  // methode avec betaB
     }
 
     k = 0;
     sum = 1.0;
     sum1 = 0.0;
-    for (i=1;i<=n[0];i++) {
-      hold = bbeta/lambda[i-1];
-      gamma[i-1] = 1.0 - hold;
-      sum = sum*R_pow(hold,mult[i-1]); //???? pas sur ..
-      sum1 = sum1 + delta[i-1];
-      k = k + mult[i-1];
-      theta[i-1] = 1.0;
+    for (i = 1; i <= n[0]; i++) {
+      hold = bbeta / lambda[i - 1];
+      gamma[i - 1] = 1.0 - hold;
+      sum = sum * R_pow(hold, mult[i - 1]); //???? pas sur ..
+      sum1 = sum1 + delta[i - 1];
+      k = k + mult[i - 1];
+      theta[i - 1] = 1.0;
     }
     
-    ao = exp(0.5*(log(sum)-sum1));
+    ao = std::exp(0.5 * (std::log(sum) - sum1));
     if (ao <= 0.0) {
       res[0] = 0.0;
       dnsty[0] = 0.0;
       ifault[0] = 1;
-    } else { // evaluate probability and density of chi-squared on k degrees of freedom. The constant 0.22579135264473 is ln(sqrt(pi/2))
-      z = c[0]/bbeta;
+    } else { // evaluate probability and density of chi-squared on k degrees of freedom. The constant 0.22579135264473 is ln(sqrt(pi / 2))
+      z = c[0] / bbeta;
       
       if ((k%2) == 0) { // k est un entier donc on regarde si k est divisible par 2: k == (k/2)*k 
 	i = 2;
-	lans = -0.5*z;
-	dans = exp(lans);
+	lans = -0.5 * z;
+	dans = std::exp(lans);
 	pans = 1.0 - dans;
       } else {
 	i = 1;
-	lans = -0.5*(z+log(z)) - 0.22579135264473;
-	dans = exp(lans);
-	pans = pnorm(sqrt(z),0.0,1.0,1,0) - pnorm(-sqrt(z),0.0,1.0,1,0); 
+	lans = -0.5 * (z + std::log(z)) - 0.22579135264473;
+	dans = std::exp(lans);
+	pans = pnorm(std::sqrt(z), 0.0, 1.0, 1, 0) - pnorm(-std::sqrt(z), 0.0, 1.0, 1,0); 
       }
       
       k = k-2;
-      for (j=i;j<=k;j=j+2) {
+      for (j = i; j <= k; j = j + 2) {
 	if (lans < tol) {
-	  lans = lans + log(z/(double)j);
-	  dans = exp(lans);
+	  lans = lans + std::log(z / (double)j);
+	  dans = std::exp(lans);
 	} else {
-	  dans = dans*z/(double)j;
+	  dans = dans * z / (double)j;
 	}
 	pans = pans -dans;
       }
@@ -104,48 +104,48 @@ extern "C" {
       
       prbty = pans;
       dnsty[0] = dans;
-      eps2 = eps[0]/ao;
-      aoinv = 1.0/ao;
+      eps2 = eps[0] / ao;
+      aoinv = 1.0 / ao;
       sum = aoinv - 1.0;
     
 
-    for (m=1;m<=maxit[0];m++) {
+    for (m = 1; m <= maxit[0]; m++) {
       sum1 = 0.0;
-      for (i=1;i<=n[0];i++) {
-	hold = theta[i-1];
-	hold2 = hold*gamma[i-1];
-	theta[i-1] = hold2;
-	sum1 = sum1 + hold2*mult[i-1]+m*delta[i-1]*(hold-hold2);
+      for (i = 1; i <= n[0]; i++) {
+	hold = theta[i - 1];
+	hold2 = hold * gamma[i - 1];
+	theta[i - 1] = hold2;
+	sum1 = sum1 + hold2 * mult[i - 1] + m * delta[i - 1] * (hold - hold2);
       }
-      sum1 = 0.5*sum1;
-      b[m-1] = sum1;
-      for (i=m-1;i>=1;i--) {
-	sum1 = sum1 + b[i-1]*a[m-i-1]; 
+      sum1 = 0.5 * sum1;
+      b[m - 1] = sum1;
+      for (i = m - 1; i >= 1; i--) {
+	sum1 = sum1 + b[i - 1] * a[m - i - 1]; 
       }
-      sum1 = sum1/(double)m;
-      a[m-1] = sum1;
+      sum1 = sum1 / (double)m;
+      a[m - 1] = sum1;
       k = k + 2;
       if (lans < tol) {
-	lans = lans + log(z/(double)k);
-	dans = exp(lans);
+	lans = lans + std::log(z / (double)k);
+	dans = std::exp(lans);
       } else {
-	dans = dans*z/(double)k;
+	dans = dans * z / (double)k;
       }
       pans = pans - dans;
       sum = sum - sum1;
-      dnsty[0] = dnsty[0] + dans*sum1;
-      sum1 = pans*sum1;
+      dnsty[0] = dnsty[0] + dans * sum1;
+      sum1 = pans * sum1;
       prbty = prbty + sum1;
-      if (prbty<(-aoinv)) {
+      if (prbty < (-aoinv)) {
 	res[0] = -3.0;
 	ifault[0] = 3;
 	return;
       }
-      if (fabs(pans*sum) < eps2) {
-	if (fabs(sum1) < eps2) {
+      if (std::fabs(pans * sum) < eps2) {
+	if (std::fabs(sum1) < eps2) {
 	  ifault[0] = 0;
 	  
-	  m = maxit[0]+1;
+	  m = maxit[0] + 1;
 	  break;
 
 	}
@@ -153,11 +153,11 @@ extern "C" {
     }
 
     ifault[0] = 4;
-    dnsty[0] = ao*dnsty[0]/(bbeta+bbeta);
-    prbty = ao*prbty;
-    if (prbty<0.0 || prbty>1.0) {ifault[0] = ifault[0] + 5;
+    dnsty[0] = ao * dnsty[0] / (bbeta + bbeta);
+    prbty = ao * prbty;
+    if (prbty < 0.0 || prbty > 1.0) {ifault[0] = ifault[0] + 5;
     } else {
-      if (dnsty[0]<0.0) ifault[0] = ifault[0] + 6;
+      if (dnsty[0] < 0.0) ifault[0] = ifault[0] + 6;
     }
     res[0] = prbty;
     }
