@@ -4,6 +4,15 @@
 #include "Rmath.h"
 #include <setjmp.h>
 
+using std::atan;
+using std::exp;
+using std::sin;
+using std::log;
+using std::fabs;
+using std::sqrt;
+using std::floor;
+
+
 #define TRUE  1
 #define FALSE 0
 typedef int BOOL;

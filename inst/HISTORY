@@ -53,3 +53,13 @@ Version 1.4.2:
 - I warn that all values of delta should be positive in all functions.
 - I added importFrom("stats", "pchisq") to the NAMESPACE file
 
+2017-10-04
+----------
+
+Version 1.4.3:
+- I added using std::atan; using std::log; etc ... to solve compilation errors on x86_64-w64-mingw32 (64-bit) for R version 3.2.5 (2016-04-14)
+- I modified Rd files so that output is more nice, and corrected some typos
+- I replaced in the NAMESPACE file useDynLib(CompQuadForm) with useDynLib(CompQuadForm, .registration = TRUE)
+- I added the file registerDynamicSymbol.c in the scr section
+
+

@@ -1,6 +1,12 @@
 #include <R.h>
 #include "Rmath.h"
 
+using std::exp;
+using std::log;
+using std::fabs;
+using std::sqrt;
+
+
 extern "C" {
 
 // Algorithm AS 204 Appl. Statist. (1984) Vol. 33, No.3

@@ -1,4 +1,4 @@
-useDynLib(CompQuadForm)
+useDynLib(CompQuadForm, .registration = TRUE)
 
 # Export all names
 exportPattern(".")

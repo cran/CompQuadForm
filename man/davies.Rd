@@ -5,8 +5,8 @@
 Distribution function (survival function in fact) of quadratic forms in normal variables using Davies's method.
 }
 \usage{
-davies(q, lambda, h = rep(1, length(lambda)), delta = rep(0, length(lambda)),
-       sigma = 0, lim = 10000, acc = 0.0001)
+davies(q, lambda, h = rep(1, length(lambda)), delta = rep(0,
+         length(lambda)), sigma = 0, lim = 10000, acc = 0.0001)
 }
 \arguments{
   \item{q}{value point at which distribution function is to be evaluated}

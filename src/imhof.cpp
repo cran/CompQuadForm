@@ -7,6 +7,11 @@
 #include <R.h>
 #include "Rmath.h"
 
+using std::atan;
+using std::exp;
+using std::sin;
+
+
 extern "C" {
 
   double theta(double *u, double *lambda, int *lambdalen, double *h, double *x, double *delta2)

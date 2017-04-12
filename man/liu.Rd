@@ -6,7 +6,8 @@ Distribution function (survival function in fact) of quadratic forms in
 normal variables using Liu et al.'s method.
 }
 \usage{
-liu(q, lambda, h = rep(1, length(lambda)), delta = rep(0, length(lambda)))
+liu(q, lambda, h = rep(1, length(lambda)),
+    delta = rep(0, length(lambda)))
 }
 \arguments{
   \item{q}{value point at which the survival function is to be evaluated}
@@ -18,7 +19,7 @@ liu(q, lambda, h = rep(1, length(lambda)), delta = rep(0, length(lambda)))
 New chi-square approximation to the distribution of non-negative
 definite quadratic forms in non-central normal variables. 
 
-Computes P[Q>q] where \eqn{Q=\sum_{j=1}^n\lambda_j\chi^2(h_j,\delta_j)}{Q=sum_{j=1}^n lambda_j chi^2(h_j,delta_j)}.
+Computes \eqn{P[Q>q]} where \eqn{Q=\sum_{j=1}^n\lambda_j\chi^2(h_j,\delta_j)}{Q=sum_{j=1}^n lambda_j chi^2(h_j,delta_j)}.
 
 This method does not work as good as the Imhof's method. Thus Imhof's method should be recommended.
 }

@@ -6,14 +6,15 @@
 Distribution function (survival function in fact) of quadratic forms in normal variables using Farebrother's algorithm.
 }
 \usage{
-farebrother(q, lambda, h = rep(1, length(lambda)), delta = rep(0, length(lambda)),
-            maxit = 100000, eps = 10^(-10), mode = 1)
+farebrother(q, lambda, h = rep(1, length(lambda)),
+            delta = rep(0, length(lambda)), maxit = 100000,
+            eps = 10^(-10), mode = 1)
 }
 \arguments{
   \item{q}{value point at which distribution function is to be evaluated}
   \item{lambda}{the weights \eqn{\lambda_1, \lambda_2, ..., \lambda_n}, i.e. the distinct non-zero characteristic roots of \eqn{A\Sigma}{A.Sigma} }
   \item{h}{vector of the respective orders of multiplicity \eqn{m_i} of the \eqn{\lambda}{lambda}s}
-  \item{delta}{the non-centrality parameters \eqn{delta_i} (should be positive)}
+  \item{delta}{the non-centrality parameters \eqn{\delta_i} (should be positive)}
   \item{maxit}{the maximum number of term K in equation below}
   \item{eps}{the desired level of accuracy}
   \item{mode}{if 'mode' > 0 then \eqn{\beta=mode*\lambda_{min}} otherwise \eqn{\beta=\beta_B=2/(1/\lambda_{min}+1/\lambda_{max})}}

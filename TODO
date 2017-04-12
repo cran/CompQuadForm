@@ -100,6 +100,9 @@ In Mathematica, I obtain a positive value:
 
 The problem comes from numerical precision. I should consider using a multiple-precision library (see www.mpfr.org or www.boost.org/doc/libs/1_60_0/libs/multiprecision) in my C code.
 
+Voir aussi:
+https://cran.r-project.org/web/packages/Rmpfr/vignettes/Rmpfr-pkg.pdf
+
 ####################################################################################
 
 
@@ -123,3 +126,26 @@ The Qq should be within [0,1], would you let me know how to fix this? Thanks a l
 "Zhonghua Liu" <zhl618@mail.harvard.edu>
 
 ####################################################################
+
+Dear Professor Lafaye de Micheaux,
+
+for some educational reasons I am currently trying to re-compute Durbin and Watsons (1951, II) critical values of the lower and upper bounds of their Test-Statistic dL and dH  (and also table extensions like the one of Savin and White (1977)) (I know that this has no practical relevance as we can compute exact p-values, but as mentioned, this is just for educational purposes). The only promising source I found on the web was your R-package CompQuadForm and a 2002 Handbook Publication "Computing the Distribution of a quadratic form in normal variables" by Professor Farebrother. However, I am stuck in section 4 in which he writes, that one can determine the bounds "by setting g=1 and solving the equation 
+
+Pr[ sum( (lambda - c) * z ²) ] = alpha         (4.1)
+
+for c". My problem is that I can evaluate the left-hand side of (4.1) using pan/gadsol but I do not know how to solve (4.1) for c. The only (and maybe naive) ideas that I have are (i) to reverse the pan/gradsol algorithm such that it returns quantiles (which seems to be a quite tedious task) or to do a binary search over function values of pan/gradsol function (which is computationally inefficient). How exactly are the quantile-tables of dL and dH generated?
+The other problem I have is to implement CompQuadForm-functions or the original Imhof/Koerts/Abrahamse algorithm "fquad" for the above purpose as it seems not to evaluate the same quadratic form as pan/gradsol does. How do I have to use/modify this algorithm such that it is fully compatible with pan/gradsol?
+
+I know that these questions my be trivial to you and I feel really sorry to bother you with that but I see no other solution than to contact you directly. You would do me a great favour if you could give me some short help.
+
+Thank you very much in advance.
+Sincerely, Yours
+
+Sönke Hoffmann, Germany
+
+-----------
+Dr. rer. pol. Sönke Hoffmann
+Otto-von-Guericke University
+Faculty of Economics and Management
+Chair of Economic Policy (VWL III)
+"Hoffmann, Soenke" <soenke.hoffmann@ovgu.de>
